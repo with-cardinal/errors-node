@@ -1,6 +1,6 @@
-import { defaultOptions, Options } from ".";
+import { send } from ".";
 
-export function initNode(options: Options = defaultOptions) {
-  process.on("unhandledRejection", options.errorCallback);
-  process.on("uncaughtException", options.errorCallback);
+export function initNode() {
+  process.on("unhandledRejection", send);
+  process.on("uncaughtException", send);
 }

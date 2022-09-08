@@ -13,12 +13,21 @@ export const defaultOptions = {
   errorCallback: errorCallback,
 };
 
+let _options: Options;
+
+const initialized = false;
 export function init(options: Options = defaultOptions) {
-  options.errorCallback ||= errorCallback;
+  if (initialized) {
+    throw new Error("Errors initialized multiple times");
+  }
+
+  _options = options;
 
   if (isNode) {
-    initNode(options);
+    initNode();
   }
 }
 
-export { initNode };
+export function send(e: unknown) {
+  _options.errorCallback(e);
+}
