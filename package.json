@@ -2,7 +2,7 @@
   "name": "@withcardinal/errors",
   "version": "0.0.0",
   "description": "JavaScript client library for Errors with Cardinal",
-  "main": "dist/index.js",
+  "main": "dist/node.js",
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/*.ts",

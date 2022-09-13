@@ -4,18 +4,20 @@ import path from "path";
 
 http
   .createServer(function (req, res) {
-    fs.readFile(
-      path.join("src", "testing", req.url || ""),
-      function (err, data) {
-        if (err) {
-          res.writeHead(404);
-          res.end(JSON.stringify(err));
-          return;
-        }
-        res.writeHead(200);
-        res.end(data);
+    let target = path.join("src", "testing", req.url || "");
+    if (req.url?.startsWith("/dist")) {
+      target = path.join(".", req.url);
+    }
+
+    fs.readFile(target, function (err, data) {
+      if (err) {
+        res.writeHead(404);
+        res.end(JSON.stringify(err));
+        return;
       }
-    );
+      res.writeHead(200);
+      res.end(data);
+    });
   })
   .listen(8080);
 
