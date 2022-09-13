@@ -7,7 +7,8 @@
     "test": "jest",
     "lint": "eslint src/**/*.ts",
     "build": "tsc",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "test-http-server": "node ./dist/testing/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,7 @@
   "license": "MIT",
   "homepage": "https://github.com/with-cardinal/errors#readme",
   "devDependencies": {
+    "@playwright/test": "1.25.2",
     "@swc/core": "1.2.224",
     "@swc/jest": "0.2.22",
     "@types/jest": "28.1.6",
