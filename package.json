@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "build": "tsc",
+    "build": "tsc; spack",
     "clean": "rm -rf dist",
     "test-http-server": "node ./dist/testing/server.js"
   },
@@ -19,6 +19,7 @@
   "homepage": "https://github.com/with-cardinal/errors#readme",
   "devDependencies": {
     "@playwright/test": "1.25.2",
+    "@swc/cli": "0.1.57",
     "@swc/core": "1.2.224",
     "@swc/jest": "0.2.22",
     "@types/jest": "28.1.6",
