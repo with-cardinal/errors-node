@@ -4,7 +4,7 @@
   "description": "JavaScript client library for Errors with Cardinal",
   "main": "dist/node.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest; playwright test",
     "lint": "eslint src/**/*.ts",
     "build": "tsc; spack",
     "clean": "rm -rf dist",
