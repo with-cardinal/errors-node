@@ -2,13 +2,12 @@
   "name": "@withcardinal/errors",
   "version": "0.0.0",
   "description": "JavaScript client library for Errors with Cardinal",
-  "main": "dist/node.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "jest; playwright test",
+    "test": "jest",
     "lint": "eslint src/**/*.ts",
-    "build": "tsc; spack",
-    "clean": "rm -rf dist",
-    "test-http-server": "node ./dist/testing/server.js"
+    "build": "tsc",
+    "clean": "rm -rf dist"
   },
   "repository": {
     "type": "git",

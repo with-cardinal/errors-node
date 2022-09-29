@@ -1,4 +1,4 @@
-import * as Errors from "../node";
+import * as Errors from "..";
 
 Errors.init({
   errorCallback: () => {
