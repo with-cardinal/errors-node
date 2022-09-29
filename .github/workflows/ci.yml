@@ -29,7 +29,8 @@ jobs:
             ~/.cache/ms-playwright
           key: cache-playwright-linux-1
       - run: npm ci
-      - run: npx playwright install --with-deps
+      - run: npx playwright install-deps
+      - run: npx playwright install
         if: steps.playwright-cache.outputs.cache-hit != 'true'
       - run: npm run lint
       - run: npm run build
