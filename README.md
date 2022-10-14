@@ -22,3 +22,7 @@ The Errors library will detect your runtime environment and initialize it accord
 
 - window related stuff like size, browser string
 - configured environment
+
+## Environment Variables
+
+- `ERRORS_SECRET` - the secret to use for authenticating with the server when sending errors.
