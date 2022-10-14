@@ -1,50 +1,32 @@
-const _queue: SendableError[] = [];
-function defaultErrorCallback(e: unknown) {
-  const sendable = errorToSendable(e);
-  _queue.push(sendable);
-}
+import { errorToSendable } from "./sendable-error";
+import { enqueue } from "./delivery";
 
 export type Options = {
   secret: string;
+  host: string;
   errorCallback: typeof defaultErrorCallback;
 };
 
 export const defaultOptions = {
   secret: process.env.ERRORS_SECRET || "",
+  host: process.env.ERRORS_HOST || "https://errors.withcardinal.com",
   errorCallback: defaultErrorCallback,
 };
 
-const _options: Options = defaultOptions;
+export const options: Options = defaultOptions;
 export function init(options: Partial<Options> = defaultOptions) {
-  Object.assign(_options, options);
+  Object.assign(options, options);
+  Object.freeze(options);
 
   process.on("unhandledRejection", send);
   process.on("uncaughtException", send);
 }
 
-export function send(e: unknown) {
-  _options.errorCallback(e);
+function defaultErrorCallback(e: unknown) {
+  const sendable = errorToSendable(e);
+  enqueue(sendable);
 }
 
-type SendableError = {
-  message: string;
-  at: Date;
-  stack?: string;
-};
-
-export function errorToSendable(e: unknown): SendableError {
-  const at = new Date();
-
-  if (e instanceof Error) {
-    return {
-      message: e.message,
-      at,
-      stack: e.stack,
-    };
-  } else {
-    return {
-      message: String(e),
-      at,
-    };
-  }
+export function send(e: unknown) {
+  options.errorCallback(e);
 }
