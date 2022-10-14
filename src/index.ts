@@ -1,6 +1,7 @@
+const _queue: SendableError[] = [];
 function defaultErrorCallback(e: unknown) {
   const sendable = errorToSendable(e);
-  console.log(sendable);
+  _queue.push(sendable);
 }
 
 export type Options = {
