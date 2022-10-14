@@ -12,7 +12,7 @@ export function enqueue(sendable: SendableError) {
 }
 
 async function deliverErrors() {
-  if (_queue.length > 0 && navigator.onLine) {
+  if (_queue.length > 0) {
     const errors = _queue.splice(0, _queue.length);
     let success = true;
 
@@ -41,6 +41,3 @@ async function deliverErrors() {
     }
   }
 }
-
-// deliver on reconnect
-window.addEventListener("online", deliverErrors);
