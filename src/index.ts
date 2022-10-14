@@ -9,13 +9,13 @@ export type Options = {
 };
 
 export const defaultOptions = {
-  secret: process.env.ERRORS_SECRET,
+  secret: process.env.ERRORS_SECRET || "",
   errorCallback: defaultErrorCallback,
 };
 
-let _options: Options;
+const _options: Options = defaultOptions;
 export function init(options: Partial<Options> = defaultOptions) {
-  Object.assign(_options, options, defaultOptions);
+  Object.assign(_options, options);
 
   process.on("unhandledRejection", send);
   process.on("uncaughtException", send);
