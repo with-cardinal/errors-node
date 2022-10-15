@@ -35,8 +35,5 @@
   },
   "volta": {
     "node": "16.18.0"
-  },
-  "dependencies": {
-    "node-fetch": "3.2.10"
   }
 }
