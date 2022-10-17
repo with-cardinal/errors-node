@@ -1,5 +1,5 @@
 import { errorToSendable } from "./sendable-error";
-import { enqueue } from "./delivery";
+import { enqueue } from "./deliver-errors";
 
 export type Options = {
   secret: string;
@@ -14,8 +14,8 @@ export const defaultOptions = {
 };
 
 export const options: Options = defaultOptions;
-export function init(options: Partial<Options> = defaultOptions) {
-  Object.assign(options, options);
+export function init(initOptions: Partial<Options> = defaultOptions) {
+  Object.assign(options, initOptions);
   Object.freeze(options);
 
   process.on("unhandledRejection", send);
