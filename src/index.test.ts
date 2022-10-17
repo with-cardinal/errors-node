@@ -2,6 +2,9 @@ import { describe, test, expect } from "@jest/globals";
 import run from "./testing/run";
 import path from "path";
 import { nanoid } from "nanoid";
+import { reqs, setupTestServer } from "./test-help";
+
+setupTestServer();
 
 describe("node", () => {
   test("catches uncaught exceptions", async () => {
@@ -11,7 +14,7 @@ describe("node", () => {
       false
     );
     expect(result.code).toBe(1);
-    expect(result.stderr).toContain(id);
+    expect(reqs.length).toBe(1);
   });
 
   test("catches unahandled promise rejection", async () => {
@@ -21,6 +24,6 @@ describe("node", () => {
       false
     );
     expect(result.code).toBe(1);
-    expect(result.stderr).toContain(id);
+    expect(reqs.length).toBe(1);
   });
 });

@@ -1,33 +1,27 @@
 import { SendableError } from "./sendable-error";
-import { options } from ".";
+import { postErrors } from "./post-errors";
 
 const defaultDelay = 100;
 const errorDelay = 5000;
 
 const _queue: SendableError[] = [];
-export function enqueue(sendable: SendableError) {
+export function enqueue(sendable: SendableError, skipSchedule = false) {
   _queue.push(sendable);
-  setTimeout(deliverErrors, defaultDelay);
+
+  if (!skipSchedule) {
+    setTimeout(deliverErrors, defaultDelay);
+  }
 }
 
-async function deliverErrors() {
+export async function deliverErrors() {
   if (_queue.length > 0) {
     const errors = _queue.splice(0, _queue.length);
     let success = true;
 
     try {
-      const response = await fetch(
-        new URL("/errors", options.host).toString(),
-        {
-          method: "POST",
-          body: JSON.stringify({ errors }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      const result = await postErrors(errors);
 
-      if (!response.ok) {
+      if (!result) {
         success = false;
       }
     } catch (e) {
@@ -37,6 +31,19 @@ async function deliverErrors() {
     if (!success) {
       _queue.push(...errors);
       setTimeout(deliverErrors, errorDelay);
+    }
+  }
+}
+
+export async function deliverImmediate() {
+  if (_queue.length > 0) {
+    const errors = _queue.splice(0, _queue.length);
+
+    try {
+      await postErrors(errors);
+    } catch (e) {
+      _queue.push(...errors);
+      throw e;
     }
   }
 }
