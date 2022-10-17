@@ -18,10 +18,10 @@ export async function postErrors(errors: SendableError[]): Promise<boolean> {
     },
   };
 
-  console.log(reqOptions);
-
   return new Promise((resolve, reject) => {
     const cb = (response: http.IncomingMessage) => {
+      response.on("data", () => null);
+
       response.on("end", () => {
         if (response.statusCode && response.statusCode < 300) {
           resolve(true);
@@ -33,6 +33,7 @@ export async function postErrors(errors: SendableError[]): Promise<boolean> {
 
       response.on("error", reject);
     };
+
     const req = proto.request(reqOptions, cb);
     req.write(JSON.stringify({ errors }));
     req.end();
