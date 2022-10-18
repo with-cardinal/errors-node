@@ -1,11 +1,6 @@
 import * as Errors from "..";
 
-Errors.init({
-  errorCallback: () => {
-    console.error(process.argv[2]);
-    process.exit(1);
-  },
-});
+Errors.init({ host: "http://localhost:8888" });
 
 async function main() {
   throw new Error("Unahandled rejection");

@@ -1,25 +1,35 @@
+import { describe, test, expect } from "@jest/globals";
 import run from "./testing/run";
 import path from "path";
-import { nanoid } from "nanoid";
+import { reqs, setupTestServer } from "./test-help";
+
+setupTestServer();
 
 describe("node", () => {
   test("catches uncaught exceptions", async () => {
-    const id = nanoid();
     const result = await run(
-      `node ${path.join("dist", "testing", "uncaught-exception.js")} ${id}`,
+      `node ${path.join("dist", "testing", "uncaught-exception.js")}`,
       false
     );
     expect(result.code).toBe(1);
-    expect(result.stderr).toContain(id);
+    expect(reqs.length).toBe(1);
   });
 
   test("catches unahandled promise rejection", async () => {
-    const id = nanoid();
     const result = await run(
-      `node ${path.join("dist", "testing", "unhandled-rejection.js")} ${id}`,
+      `node ${path.join("dist", "testing", "unhandled-rejection.js")}`,
       false
     );
     expect(result.code).toBe(1);
-    expect(result.stderr).toContain(id);
+    expect(reqs.length).toBe(1);
+  });
+
+  test("sends when sent manually", async () => {
+    const result = await run(
+      `node ${path.join("dist", "testing", "send.js")}`,
+      false
+    );
+    expect(result.code).toBe(0);
+    expect(reqs.length).toBe(1);
   });
 });

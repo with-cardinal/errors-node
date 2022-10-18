@@ -1,47 +1,7 @@
-import { SendableError } from "./sendable-error";
-import { options } from ".";
 import http from "http";
 import https from "https";
-
-const defaultDelay = 100;
-const errorDelay = 5000;
-
-const _queue: SendableError[] = [];
-export function enqueue(sendable: SendableError) {
-  _queue.push(sendable);
-  setTimeout(deliverErrors, defaultDelay);
-}
-
-async function deliverErrors() {
-  if (_queue.length > 0) {
-    const errors = _queue.splice(0, _queue.length);
-    let success = true;
-
-    try {
-      const response = await fetch(
-        new URL("/errors", options.host).toString(),
-        {
-          method: "POST",
-          body: JSON.stringify({ errors }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        success = false;
-      }
-    } catch (e) {
-      success = false;
-    }
-
-    if (!success) {
-      _queue.push(...errors);
-      setTimeout(deliverErrors, errorDelay);
-    }
-  }
-}
+import { SendableError } from "./sendable-error";
+import { options } from ".";
 
 export async function postErrors(errors: SendableError[]): Promise<boolean> {
   const url = new URL("/errors", options.host);
@@ -58,10 +18,10 @@ export async function postErrors(errors: SendableError[]): Promise<boolean> {
     },
   };
 
-  console.log(reqOptions);
-
   return new Promise((resolve, reject) => {
     const cb = (response: http.IncomingMessage) => {
+      response.on("data", () => null);
+
       response.on("end", () => {
         if (response.statusCode && response.statusCode < 300) {
           resolve(true);
@@ -73,6 +33,7 @@ export async function postErrors(errors: SendableError[]): Promise<boolean> {
 
       response.on("error", reject);
     };
+
     const req = proto.request(reqOptions, cb);
     req.write(JSON.stringify({ errors }));
     req.end();
