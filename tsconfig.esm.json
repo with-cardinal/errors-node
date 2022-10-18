@@ -2,7 +2,7 @@
   "compilerOptions": {
     "strict": true,
     "target": "ES6",
-    "module": "commonjs",
+    "module": "ES6",
     "sourceMap": true,
     "moduleResolution": "Node",
     "declaration": true,
@@ -10,7 +10,7 @@
     "forceConsistentCasingInFileNames": true,
     "allowSyntheticDefaultImports": true,
     "useDefineForClassFields": true,
-    "outDir": "dist/cjs",
+    "outDir": "dist/esm",
   },
   "include": [
     "src/**/*"
