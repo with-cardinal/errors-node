@@ -1,7 +1,6 @@
 import { SendableError } from "./sendable-error";
 import { postErrors } from "./post-errors";
 
-const defaultDelay = 100;
 const errorDelay = 5000;
 
 const _queue: SendableError[] = [];
@@ -9,7 +8,7 @@ export function enqueue(sendable: SendableError, skipSchedule = false) {
   _queue.push(sendable);
 
   if (!skipSchedule) {
-    setTimeout(deliverErrors, defaultDelay);
+    deliverErrors();
   }
 }
 
