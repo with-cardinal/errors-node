@@ -1,5 +1,5 @@
 {
-  "name": "@withcardinal/errors",
+  "name": "@withcardinal/errors-node",
   "version": "0.0.0",
   "description": "JavaScript client library for Errors with Cardinal",
   "main": "./dist/cjs/index.js",
@@ -14,11 +14,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/with-cardinal/errors.git"
+    "url": "git+https://github.com/with-cardinal/errors-node.git"
   },
   "author": "With Cardinal, LLC",
   "license": "MIT",
-  "homepage": "https://github.com/with-cardinal/errors#readme",
+  "homepage": "https://github.com/with-cardinal/errors-node#readme",
   "devDependencies": {
     "@playwright/test": "1.27.1",
     "@swc/cli": "0.1.57",
