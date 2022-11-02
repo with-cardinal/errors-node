@@ -21,12 +21,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Install Task
+        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
       - uses: actions/setup-node@v3
         with:
           node-version: ${{matrix.node-version}}
           cache: "npm"
           registry-url: https://registry.npmjs.org/
       - run: npm ci
-      - run: npm run lint
-      - run: npm run build
-      - run: npm run test
+      - run: task lint
+      - run: task build
+      - run: task test

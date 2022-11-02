@@ -12,6 +12,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v3
+      - name: Install Task
+        run: sh -c "$(curl --location https://taskfile.dev/install.sh)" -- -d -b /usr/local/bin
       - run: echo NODE_VERSION=$(jq -r .volta.node package.json) >> $GITHUB_ENV
       - uses: actions/setup-node@v3
         with:
@@ -20,7 +22,7 @@ jobs:
           registry-url: https://registry.npmjs.org/
 
       - run: npm ci
-      - run: npm run build
+      - run: task build
 
       - run: npm set git-tag-version false
       - run: npm version ${{ github.event.release.tag_name }}

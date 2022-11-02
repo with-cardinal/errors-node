@@ -1,0 +1,48 @@
+# https://taskfile.dev
+
+version: '3'
+
+vars:
+  NODE_BIN: ./node_modules/.bin
+
+tasks:
+  npm:install:
+    desc: Install packages
+    cmds:
+      - npm install
+    sources:
+      - package.json
+      - package-lock.json
+    generates:
+      - ./node_modules/**/*
+
+  build:
+    desc: Build the app
+    deps:
+      - npm:install
+    cmds:
+      - "{{.NODE_BIN}}/tsc"
+      - "{{.NODE_BIN}}/tsc -p tsconfig.esm.json"
+
+  test:
+    desc: Test the app
+    deps:
+      - npm:install
+    cmds:
+      - "{{.NODE_BIN}}/jest"
+
+  lint:
+    desc: Lint the app
+    deps:
+      - npm:install
+    cmds:
+      - "{{.NODE_BIN}}/eslint --ext .ts --ext .tsx --ext .js --ext .jsx src/"
+
+  fix:
+    desc: Lint the app and fix anything that can be automatically fixed
+    deps:
+      - npm:install
+    cmds:
+      - "{{.NODE_BIN}}/eslint --ext .ts --ext .tsx --ext .js --ext .jsx --fix src/"
+
+  
