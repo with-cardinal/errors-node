@@ -28,6 +28,9 @@ export async function deliverErrors() {
     }
 
     if (!success) {
+      console.error(
+        `@withcardinal/errors-node: Error delivery failed. Retrying in ${errorDelay}ms`
+      );
       _queue.push(...errors);
       setTimeout(deliverErrors, errorDelay);
     }

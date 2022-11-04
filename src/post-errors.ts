@@ -16,6 +16,7 @@ export async function postErrors(errors: SendableError[]): Promise<boolean> {
       "Content-Type": "application/json",
       Authorization: `Bearer ${options.secret}`,
     },
+    timeout: 10000,
   };
 
   return new Promise((resolve, reject) => {
@@ -26,7 +27,7 @@ export async function postErrors(errors: SendableError[]): Promise<boolean> {
         if (response.statusCode && response.statusCode < 300) {
           resolve(true);
         } else {
-          console.error("Unexpected status code: ");
+          console.error(`Unexpected status code: ${response.statusCode}`);
           resolve(false);
         }
       });
