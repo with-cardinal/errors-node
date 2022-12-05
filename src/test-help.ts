@@ -1,8 +1,8 @@
-import { beforeEach, afterEach } from "@jest/globals";
+import { beforeEach, afterEach, afterAll } from "@jest/globals";
 import { options } from ".";
 import http from "http";
 
-options.host = "http://localhost:8888";
+options.host = "http://127.0.0.1:8888";
 
 let server: http.Server;
 
@@ -17,11 +17,23 @@ function listener(req: http.IncomingMessage, resp: http.ServerResponse) {
 export function setupTestServer() {
   beforeEach(() => {
     reqs = [];
-    server = http.createServer(listener);
-    server.listen(8888);
   });
 
   afterEach(() => {
+    reqs = [];
+  });
+
+  afterAll(() => {
     server.close();
   });
+
+  server = http.createServer(listener);
+  server.listen();
+
+  const address = server.address();
+  if (typeof address !== "object") {
+    throw new Error("Expected object from address()");
+  }
+
+  return `http://${address?.address}:${address?.port}`;
 }

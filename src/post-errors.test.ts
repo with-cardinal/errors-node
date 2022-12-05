@@ -2,7 +2,7 @@ import { describe, test, expect } from "@jest/globals";
 import { postErrors } from "./post-errors";
 import { setupTestServer, reqs } from "./test-help";
 
-setupTestServer();
+const addr = setupTestServer();
 
 describe("postErrors", () => {
   test("posts errors", async () => {
