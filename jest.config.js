@@ -1,6 +1,7 @@
+/** @type {import('ts-jest').JestConfigWithTsJest} */
 module.exports = {
-  transform: {
-    "^.+\\.(t|j)sx?$": ["@swc/jest"],
-  },
-  testPathIgnorePatterns: ["/node_modules/", "/dist/", "playwright"],
+  preset: "ts-jest",
+  testEnvironment: "node",
+  testPathIgnorePatterns: ["/node_modules/", "/dist/"],
+  resetMocks: true,
 };
