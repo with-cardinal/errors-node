@@ -8,7 +8,7 @@ export type Options = {
 
 export const defaultOptions = {
   secret: process.env.ERRORS_SECRET || "",
-  host: process.env.ERRORS_HOST || "https://errors.withcardinal.com",
+  host: process.env.ERRORS_HOST || "https://errors-api.withcardinal.com",
 };
 
 export const options: Options = defaultOptions;
