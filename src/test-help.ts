@@ -23,17 +23,12 @@ export function setupTestServer() {
     reqs = [];
   });
 
-  afterAll(() => {
-    server.close();
+  afterAll(async () => {
+    return new Promise<void>((resolve, reject) =>
+      server.close((err) => (err ? reject(err) : resolve()))
+    );
   });
 
   server = http.createServer(listener);
-  server.listen();
-
-  const address = server.address();
-  if (typeof address !== "object") {
-    throw new Error("Expected object from address()");
-  }
-
-  return `http://${address?.address}:${address?.port}`;
+  server.listen(8888);
 }
